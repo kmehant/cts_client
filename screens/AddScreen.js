@@ -1,14 +1,15 @@
 import * as React from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import AddComponent from './AddComponent';
-
 
 export default function AddScreen() {
   return (
             <View style={styles.container}>
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
     <AddComponent />
+   
+
       </ScrollView>
 
 
