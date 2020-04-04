@@ -1,14 +1,16 @@
 import * as React from 'react';
 import {Card, Button}  from 'react-native-elements';
 import { Platform,Dimensions, StyleSheet, Text, View, TextInput, TouchableOpacity,ScrollView,ImageBackground, ActivityIndicator, AsyncStorage, Alert} from 'react-native';
-
+import Cards from '../components/card'
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 export default class MyComplaintsComponent extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
       loading: false,
       emaildid: '',
-      data:[]
+      data:[],
+      res:true
     };
 }
 
@@ -47,7 +49,8 @@ comp = async () => {
         console.log(jsonData);
         this.setState({
           loading:false,
-          data: jsonData
+          data: jsonData,
+           
         })
 
           
@@ -66,14 +69,14 @@ getEmail = async () => {
 
  componentDidMount() {
       this.getEmail();
-
-
-      
-
-  
-
-
 }
+handle=()=> {
+  {
+    this.state.res=false
+  }
+  
+}
+
   render(){
     if(this.state.loading){
       return( 
@@ -87,7 +90,7 @@ getEmail = async () => {
 <Card
   title='NIT Andhra Pradesh CTS'>
   <Text style={{marginBottom: 10, alignSelf: 'center', fontSize: 15}}>
-    Welcome, {this.state.emailid}
+     {this.state.emailid}
   </Text>
   <TouchableOpacity style={styles.tags1} onPress={this.comp}>
           <Text style={{color:'white',fontSize: 15, alignSelf:'center'}}>Fetch Your Complaints</Text>
@@ -95,17 +98,76 @@ getEmail = async () => {
 </Card>
 
 <View style={styles.MainContainer}>
- 
 <Card title="Your Complaints">
   {
+     
     this.state.data.map((u, i) => {
+      
       return (
-        <View key={i} style={styles.loginBtn}>
-          <Text style={styles.name}>{u[5]}</Text>
-          <Text style={styles.name}>{u[6]}</Text>
-          <Text style={styles.name}>{u[9]}</Text>
+        
+        <View key={i} style={{}} >
+          
+          <Cards  style={{width:'100%',marginBottom:10}}>
+            <View style={{margin:7}}>
+            <View style={{flexDirection:'row-reverse'}}>
+      <Text   style={{fontFamily:'open-sans-bold'}}>  {u[9]}</Text>
+    
+      </View>
+         <View style={{flexDirection:'row',marginBottom:10}}>
+          <Text style={{fontFamily:'open-sans-bold'}}>Complaint :</Text>
+          <Text style={{marginLeft:5}}>{u[5]}</Text>
+          </View>
+         
+           
+          <View  style={{margin:5}}>
+    
+          <Text style={{fontFamily:'open-sans-bold',marginBottom:5}}>Tags :</Text>
 
+         
+
+          <View style={{flexDirection:'row'}}>
+
+        { u[6].match(/Academics/g) ? <TouchableWithoutFeedback onPress={this.handle}>
+              <View style={{backgroundColor:"#e87d7d", marginLeft:2,
+    padding: 3, borderRadius:8}}>
+          <Text style={{marginLeft:5}}>{u[6].match(/Academics/g)}</Text> 
+          </View>
+        </TouchableWithoutFeedback> : null }
+          
+ 
+
+        { u[6].match(/Hostel/g) ? <TouchableWithoutFeedback onPress={this.handle}>
+              <View style={{backgroundColor:"#94f092",marginLeft:10,
+    padding: 3, borderRadius:8}}>
+          <Text style={{marginLeft:5}}>{u[6].match(/Hostel/g)}</Text> 
+          </View>
+        </TouchableWithoutFeedback> : null }
+
+
+        { u[6].match(/Mess_Food/g) ? <TouchableWithoutFeedback onPress={this.handle}>
+              <View style={{backgroundColor:"#92d1f0",marginLeft:10,
+    padding: 3, borderRadius:8}}>
+          <Text style={{marginLeft:5}}>{u[6].match(/Mess_Food/g)}</Text> 
+          </View>
+        </TouchableWithoutFeedback> : null }
+        
+           
+        { u[6].match(/Others/g) ? <TouchableWithoutFeedback onPress={this.handle}>
+              <View style={{backgroundColor:"#d6d57c",marginLeft:10,
+    padding: 3, borderRadius:8}}>
+          <Text style={{marginLeft:5}}>{u[6].match(/Others/g)}</Text> 
+          </View>
+        </TouchableWithoutFeedback> : null } 
+
+        {u[6]===""? <Text>  No tags </Text>:null }
+</View>
+      </View>
+
+
+         </View>
+          </Cards>
         </View>
+
       );
     })
   }
@@ -137,23 +199,8 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').height,
     backgroundColor: "#424242"
    },
-  input: {
-    fontSize: 15,
-    borderColor:'grey',
-    borderWidth:1,
-    paddingLeft: 20,
-    paddingRight: 20,
-    paddingTop: 5,
-    paddingBottom: 5,
-    borderRadius:10
-},
-  loginBtn:{
-    width:"100%",
-    backgroundColor:"#d1d1d1",
-    borderRadius:5,
-    marginTop:10,
-    marginBottom:10
-  },
+ 
+
   tags1:{
     margin: 5,
     padding: 10,
@@ -189,7 +236,7 @@ const styles = StyleSheet.create({
   mainContainer: {
     alignContent:'center',
     width: '100%',
-    height: 800,
+    height: 1200,
     maxWidth: 400,
     padding: 20,
     backgroundColor:'#424242',

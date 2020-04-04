@@ -1,7 +1,8 @@
 import  React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import {Ionicons,MaterialIcons,AntDesign } from 'react-native-vector-icons';
+import {Ionicons,MaterialIcons,AntDesign, Feather} from 'react-native-vector-icons';
+import Icons from 'react-native-vector-icons/FontAwesome5'
 import ReslovedScreen from '../screens/ReslovedScreen';
 import AddScreen from '../screens/AddScreen';
 import MyComplaintsScreen from '../screens/MyComplaintsScreen';
@@ -47,7 +48,7 @@ export default class ProblemDash extends React.Component {
        options={{
          title: 'Resloved',
          fontFamily:'open-sans-bold',
-         tabBarIcon: ({color }) => <AntDesign name="check"  color={color}  size={24} />,
+         tabBarIcon: ({color }) => <Feather name="check-circle"  color={color}  size={24} />,
        }}
      />
       <BottomTab.Screen
@@ -56,7 +57,7 @@ export default class ProblemDash extends React.Component {
        options={{
          title: 'My Complaints',
          tabBarIcon:  ({ color}) => (
-           <AntDesign name='book'  color={color} size={24} />
+           <Icons name='wpforms'  color={color} size={24} />
          ),
            
         

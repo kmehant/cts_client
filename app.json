@@ -11,10 +11,10 @@
     ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/splash.png",
+    "icon": "./assets/images/cts.png",
     "scheme": "myapp",
     "splash": {
-      "image": "./assets/images/logo.png",
+      "image": "./assets/images/cts.png",
       "resizeMode": "contain",
       "backgroundColor": "#6e6e6e"
     },
