@@ -1,6 +1,17 @@
 import * as React from 'react';
 import {Card, Button}  from 'react-native-elements';
 import { Platform,Dimensions, StyleSheet, Text, View, TextInput, TouchableOpacity,ScrollView,ImageBackground, ActivityIndicator, AsyncStorage, Alert} from 'react-native';
+import Icon from 'react-native-vector-icons/EvilIcons';
+import {Ionicons,FontAwesome5} from 'react-native-vector-icons';
+import Dialog, {
+  DialogTitle,
+  DialogContent,
+  DialogFooter,
+  DialogButton,
+  SlideAnimation,
+  ScaleAnimation,
+} from 'react-native-popup-dialog';
+
 
 export default class AddComponent extends React.Component{
   constructor(props) {
@@ -12,84 +23,98 @@ export default class AddComponent extends React.Component{
         at:'Academics',
         ht:'Hostel',
         ot:'Other',
-        mt:'Mess Food'
+        mt:'Mess Food',
+        flag1:false,flag2:false,flag3:false,flag4:false,
+        TextValue:'0',
+        defaultAnimationDialog:false
     };
 }
-a = () => {
-if (this.state.at == 'Academics' )
-{
-  this.setState({
-    at: 'Selected'
-  })
-}
-else {
-  this.setState({
-    at: 'Academics'
-  })
-}
+
+a = () => {this.setState({
+      flag1:!this.state.flag1
+      
+      
+})
+
 }
 
 h = () => {
-  if (this.state.ht == 'Hostel' )
-  {
-    this.setState({
-      ht: 'Selected'
-    })
-
-  }
-  else {
-    this.setState({
-      ht: 'Hostel'
-    })
-  }
+  this.setState({
+    flag2:!this.state.flag2
+    
+    
+})
+ 
   }
   m = () => {
-    if (this.state.mt == 'Mess Food' )
-    {
-      this.setState({
-        mt: 'Selected'
-      })
-    }
-    else {
-      this.setState({
-        mt: 'Mess Food'
-      })
-    }
+    this.setState({
+      flag3:!this.state.flag3
+      
+      
+})
+  
     }
 
     o = () => {
-      if (this.state.ot == 'Other' )
-      {
-        this.setState({
-          ot: 'Selected'
-        })
+      this.setState({
+        flag4:!this.state.flag4
+        
+        
+  })
+     
+      }  
+      alertmessage1= () =>{ 
+        Alert.alert( 
+          ' Instructions :',
+          ' 1.Do not use Unparliamentary words \n \n2.Submit Constructive Complaints\n \n3.Complaint cannot be backrolled after committing it',
+      
+        ) 
+           
+        };
+      
+      alertmessage= () =>{ 
+      Alert.alert( 
+        'Proceed to Submit ?',
+        ' ',
+        [
+            { text: 'CANCEL', onPress: () => {} },
+            {  text: 'Proceed' ,onPress: () => this.pushC() }
+        ],
+        { cancelable: false }
+      ) 
+         
+      };
+      DofindLength =(data)=>{
+        var Value = data.length.toString() ;
+ 
+      this.setState({TextValue : Value}) ;
+      if(this.state.TextValue==='') {
+        this.setState({TextValue :'0'})
       }
-      else {
-        this.setState({
-          ot: 'Other'
-        })
       }
-      }   
+      handleChangeText = data=> this.setState({data},this.DofindLength(data));
+
 pushC = async () => {
   this.setState({
     loading:true
   })
+   
   let ts = '';
-  if (this.state.at == "Selected")
+  if (this.state.flag1 == true)
   {
-    ts+= "Academics;";
+    ts+= "Academics/";
   }
-  if (this.state.ht == "Selected")
+  if (this.state.flag2 == true)
   {
-    ts+= "Hostel;";
+    ts+= "Hostel/";
   }
-  if (this.state.mt == "Selected")
+  if (this.state.flag3 == true)
   {
-    ts+= "Mess_Food;";
+    ts+= "Mess_Food/";
   }
-  if (this.state.ot == "Selected")
+  if (this.state.flag4 == true)
   {
-    ts+="Other;";
+    ts+="Others/";
   }
 
 
@@ -136,7 +161,6 @@ pushC = async () => {
       })
 
 
-
 }
   componentDidMount() {
     AsyncStorage.getItem('email').then((email) => {
@@ -156,43 +180,93 @@ pushC = async () => {
             <View style={styles.container}>
 <Card
   title='NIT Andhra Pradesh CTS'>
-  <Text style={{marginBottom: 10, alignSelf: 'center', fontSize: 15}}>
-    Welcome, {this.state.emailid}
+  <View style={{flexDirection:'row'}}>
+    <FontAwesome5 name="user-alt" size={25} color="black"/>
+  <Text style={{marginLeft:30,marginTop:5, alignContent: 'center', fontSize: 17}}>
+   {this.state.emailid}
   </Text>
+  </View>
+  
 </Card>
+
 <Card    style={styles.mainContainer}>
           <ScrollView>
+          <Text style={{flexDirection:'row',alignContent:'flex-end'}}>       {this.state.TextValue}/200</Text>
           <TextInput
             style={styles.input}
             value={this.state.data}
             placeholder='Write your complaint here.'
-            onChangeText={text=>this.setState({data:text})}
+            onChangeText={this.handleChangeText}
+          
             multiline={true}
             underlineColorAndroid='transparent'
+            maxLength={200}
     />
-          <Text style={{color:'black',fontSize: 20, color: 'grey', marginTop: 10}}>Tags:</Text>
-    <View style= {{flexDirection: 'row', justifyContent: 'center', marginTop: 5}}>
-
+   
+          <View style={{paddingVertical:20}}>
+          <Ionicons name="ios-pricetags" size={35} />
+          </View>
+    <View style={{flexDirection: 'row', justifyContent:'center'}} >
+   
          <TouchableOpacity style={styles.tags1} onPress={this.a}>
-          <Text style={{color:'black',fontSize: 15}}>{this.state.at}</Text>
+           <View style={{flex:1,flexDirection:'row'}}>
+         {this.state.flag1? <Text>
+            <Icon name="check" size={30} color="#900" />
+          </Text>:null}
+          <Text style={{color:'black',fontSize: 15}}>Academics</Text>
+          </View>
         </TouchableOpacity>
+
+
         <TouchableOpacity style={styles.tags2} onPress={this.h}>
-          <Text style={{color:'black',fontSize: 15}}>{this.state.ht}</Text>
+        <View style={{flex:1,flexDirection:'row'}}>
+         {this.state.flag2? <Text>
+            <Icon name="check" size={30} color="#900" />
+          </Text>:null}
+          <Text style={{color:'black',fontSize: 15}}>Hostel</Text>
+          </View>
         </TouchableOpacity>
         </View>
+
+
         <View style= {{flexDirection: 'row', justifyContent:'center'}}>
         <TouchableOpacity style={styles.tags3} onPress={this.m}>
-          <Text style={{color:'black',fontSize: 15}}>{this.state.mt}</Text>
+        <View style={{flex:1,flexDirection:'row'}}>
+         {this.state.flag3? <Text>
+            <Icon name="check" size={30} color="#900" />
+          </Text>:null}
+          <Text style={{color:'black',fontSize: 15}}>Mess_Food</Text>
+          </View>
         </TouchableOpacity>
+        
+
         <TouchableOpacity style={styles.tags4} onPress={this.o}>
-          <Text style={{color:'black',fontSize: 15}}>{this.state.ot}</Text>
+        <View style={{flex:1,flexDirection:'row'}}>
+         {this.state.flag4? <Text>
+            <Icon name="check" size={30} color="#900" />
+          </Text>:null}
+          
+          <Text style={{color:'black',fontSize: 15}}>Others</Text>
+          </View>
         </TouchableOpacity>
+
         </View>
-        <TouchableOpacity style={styles.loginBtn} onPress={this.pushC}>
+
+
+        <TouchableOpacity style={styles.loginBtn} onPress={this.alertmessage}>
           <Text style={{color:'black',fontSize: 20}}>Post</Text>
         </TouchableOpacity>
 </ScrollView>
   </Card>
+  <View style={{alignItems:'flex-end',flexDirection:'row-reverse',padding:10,flex:1}}>
+  <TouchableOpacity  
+  
+  style={styles.CircleShapeView}
+  onPress={this.alertmessage1}>
+    
+     <ImageBackground source={require('../assets/images/guideline.png') } style={{width:30,height:30,overflow:"hidden",margin:15}}/>     
+        </TouchableOpacity>
+      </View >   
     </View>
   );
 }
@@ -208,6 +282,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#6e6e6e',
   },
+  CircleShapeView: {
+    width: 60,
+    height: 60,
+    borderRadius: 150/2,
+    backgroundColor:"white"
+},
   loader:{
     flex: 1,
     justifyContent: "center",
