@@ -4,7 +4,6 @@ import { Platform, Dimensions, StyleSheet, Text, View, TextInput, TouchableOpaci
 import Icon from 'react-native-vector-icons/EvilIcons';
 import { Ionicons, FontAwesome5 } from 'react-native-vector-icons';
 import Dialog, {
-  DialogTitle,
   DialogContent,
   DialogFooter,
   DialogButton,
