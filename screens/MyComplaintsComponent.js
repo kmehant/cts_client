@@ -105,7 +105,7 @@ handle=()=> {
       
       return (
         
-        <View key={i} style={{}} >
+        <View key={i}  >
           
           <Cards  style={{width:'100%',marginBottom:10}}>
             <View style={{margin:7}}>
