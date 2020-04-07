@@ -23,9 +23,6 @@ comp = async () => {
   let t = await AsyncStorage.getItem('token');
   console.log(t);
 
-  // testing purpose
-  t = 'root';
-
 
   if (t == '[object Object]' || t==''  )
   {
@@ -54,6 +51,12 @@ comp = async () => {
           
       })
       .catch((e)=>{
+        this.setState({
+          loading:false,
+          data: jsonData
+        })
+        Alert.alert('Server is down', 'Please retry sometime later!');
+
           console.log(e);
       })
 

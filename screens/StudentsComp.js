@@ -23,8 +23,6 @@ comp = async () => {
   let t = await AsyncStorage.getItem('token');
   console.log(t);
 
-  // testing purpose
-  t = 'root';
 
 
   if (t == '[object Object]' || t==''  )

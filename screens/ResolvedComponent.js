@@ -106,7 +106,20 @@ getEmail = async () => {
 </Card>
 
 <View style={styles.MainContainer}>
- 
+<View style={{flexDirection:"row", flex:1, alignItems:'center', alignSelf: 'center', backgroundColor: 'white', padding: 10}}>
+       
+          
+       <View style={{backgroundColor:"pink",borderRadius:10,width:20,height:10,marginLeft:10,marginRight:3}}>
+         </View>
+                 
+         <Text style= {{fontSize: 15, fontWeight: "100"}}>invalid</Text>
+         <View style={{backgroundColor:"#d7ffd9",borderRadius:10,width:20,height:10,marginLeft:10,marginRight:3}}>
+         </View>
+                 
+         <Text style= {{fontSize: 15, fontWeight: "100"}}>valid</Text>
+        
+           </View>
+    
 <Card title="Your Complaints">
   
 
@@ -127,26 +140,11 @@ getEmail = async () => {
        
        console.log(c)
       return (
-      <View key={i}>
         
-        <View style={{flexDirection:"row",marginBottom:5}}>
-       
-          
-        <View style={{backgroundColor:"pink",borderRadius:10,width:20,heigth:5,marginLeft:10,marginRight:3}}>
-          </View>
-                  
-          <Text>In valid</Text>
-          <View style={{backgroundColor:"#d7ffd9",borderRadius:10,width:20,heigth:5,marginLeft:10,marginRight:3}}>
-          </View>
-                  
-          <Text>valid</Text>
-         
-            </View>
-  
-   
-    
-        
-          <Cards >
+        <View key={i}>
+
+          <Cards style={{marginTop: 10, marginBottom: 10}}>
+
             <View  style={[(this.state.check=="Yes") ? styles.bgcolor1: styles.bgcolor2]}>
             <View style={{margin:5}}>
           <View style={{flexDirection:'row-reverse'}}>
@@ -238,13 +236,13 @@ const styles = StyleSheet.create({
   bgcolor1:{
     backgroundColor:"#d7ffd9",
     elevation: 5,
-    borderRadius: 20,
+    borderRadius: 20
     
   },
   bgcolor2:{
     backgroundColor:"pink",
     elevation: 5,
-    borderRadius: 20,
+    borderRadius: 20
   },
 
   loader:{
