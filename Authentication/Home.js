@@ -23,7 +23,7 @@ resolver = () => {
       
       <View style={{flex:1,alignItems:'center', backgroundColor:'#242424'}}>
        <View style={{flex:0.5 ,alignItems:'center',justifyContent:'center',marginTop:100}}>
-         <ImageBackground source={require('../assets/images/splash.png')} style={styles.backgroundImage} ></ImageBackground>
+         <ImageBackground source={require('../assets/images/ctslogo.png')} style={styles.backgroundImage} ></ImageBackground>
          </View> 
         <Card    style={styles.authContainer}>
           <ScrollView>
@@ -92,8 +92,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#424242"
    },
   backgroundImage:{
-    width:200,
-       height:200,
+    width:160,
+       height:160,
        paddingVertical:100
        }
 });
