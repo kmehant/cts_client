@@ -91,7 +91,7 @@ getEmail = async () => {
 <Card
   title='NIT Andhra Pradesh CTS'>
   <Text style={{marginBottom: 10, alignSelf: 'center', fontSize: 15}}>
-    Welcome, {this.state.emailid}
+    {this.state.emailid}
   </Text>
   <TouchableOpacity style={styles.tags1} onPress={this.comp}>
           <Text style={{color:'white',fontSize: 15, alignSelf:'center'}}>Fetch Complaints</Text>
