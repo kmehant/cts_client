@@ -3,6 +3,7 @@ import {Card, Button}  from 'react-native-elements';
 import { Platform,Dimensions, StyleSheet, Text, View, TextInput, TouchableOpacity,ScrollView,ImageBackground, ActivityIndicator, AsyncStorage, Alert} from 'react-native';
 import Cards from '../components/card'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+
 export default class ResolvedComponent extends React.Component{
   constructor(props) {
     super(props);

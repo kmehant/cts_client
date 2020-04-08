@@ -1,8 +1,12 @@
 import * as React from 'react';
 import {Card, Button, CheckBox}  from 'react-native-elements';
 import { Platform,Dimensions, StyleSheet, Text, View, TextInput, TouchableOpacity,ScrollView,ImageBackground, ActivityIndicator, AsyncStorage, Alert} from 'react-native';
+import Cards from '../components/card'
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import Icon from 'react-native-vector-icons/EvilIcons';
 
 export default class StudentsComp extends React.Component{
+
   constructor(props) {
     super(props);
     this.state = {
@@ -10,11 +14,13 @@ export default class StudentsComp extends React.Component{
       emaildid: '',
       data:[],
       exp:'',
-      is_r: 0,
-      is_v: 1
+      is_r: false,
+      is_v: 1,
+      compid:"",
+      flag1:false,
+    
     };
 }
-
 
 comp = async () => {
   this.setState({
@@ -27,6 +33,7 @@ comp = async () => {
 
   if (t == '[object Object]' || t==''  )
   {
+    
     Alert.alert('Authentication Failure', 'Please login again!');
     this.setState({
       loading:false
@@ -65,14 +72,38 @@ getEmail = async () => {
 
  componentDidMount() {
       this.getEmail();
-
-
-      
-
-  
-
-
 }
+handler(compid){
+   { 
+  Alert.alert(
+    'Proceed to Submit ?',
+    ' ',
+    [
+      { text: 'CANCEL', onPress: ()=>{} },
+      { text: 'Proceed', onPress: () => this.setnew(compid) }
+    ],
+    { cancelable: false }
+  )
+  }
+}
+
+default(){
+   this.setState({
+     compid:""
+   })
+   console.log(this.state.compid)
+}
+setnew(compid){
+
+  this.setState({
+    compid:compid,
+    flag1:true
+  })
+  console.log(this.state.compid)
+}
+
+
+
   render(){
     if(this.state.loading){
       return( 
@@ -86,7 +117,7 @@ getEmail = async () => {
 <Card
   title='NIT Andhra Pradesh CTS'>
   <Text style={{marginBottom: 10, alignSelf: 'center', fontSize: 15}}>
-    Welcome, {this.state.emailid}
+   {this.state.emailid}
   </Text>
   <TouchableOpacity style={styles.tags1} onPress={this.comp}>
           <Text style={{color:'white',fontSize: 15, alignSelf:'center'}}>Fetch Complaints</Text>
@@ -98,28 +129,90 @@ getEmail = async () => {
 <Card title="Your Complaints">
   {
     this.state.data.map((u, i) => {
+     
+      
       return (
         <View key={i} style={styles.loginBtn}>
-          <Text style={styles.name}>{u[5]}</Text>
-          <Text style={styles.name}>{u[6]}</Text>
-          <Text style={styles.name}>{u[9]}</Text>
+          <Cards>
+          <View style={{margin:7}}>
+            <View style={{flexDirection:'row-reverse'}}>
+      <Text   style={{fontFamily:'open-sans-bold'}}>  {u[9]}</Text>
+    
+      </View>
+         <View style={{flexDirection:'row',marginBottom:10}}>
+          <Text style={{fontFamily:'open-sans-bold'}}>Complaint :</Text>
+          <Text style={{marginLeft:5}}>{u[5]}</Text>
+          </View>
+         
+           
+          <View  style={{margin:5}}>
+    
+          <Text style={{fontFamily:'open-sans-bold',marginBottom:5}}>Tags :</Text>
+
+         
+
+          <View style={{flexDirection:'row'}}>
+
+        { u[6].match(/Academics/g) ? <TouchableWithoutFeedback onPress={this.handle}>
+              <View style={{backgroundColor:"#e87d7d", marginLeft:2,
+    padding: 3, borderRadius:8}}>
+          <Text style={{marginLeft:5}}>{u[6].match(/Academics/g)}</Text> 
+          </View>
+        </TouchableWithoutFeedback> : null }
+          
+ 
+
+        { u[6].match(/Hostel/g) ? <TouchableWithoutFeedback onPress={this.handle}>
+              <View style={{backgroundColor:"#94f092",marginLeft:10,
+    padding: 3, borderRadius:8}}>
+          <Text style={{marginLeft:5}}>{u[6].match(/Hostel/g)}</Text> 
+          </View>
+        </TouchableWithoutFeedback> : null }
+
+
+        { u[6].match(/Mess_Food/g) ? <TouchableWithoutFeedback onPress={this.handle}>
+              <View style={{backgroundColor:"#92d1f0",marginLeft:10,
+    padding: 3, borderRadius:8}}>
+          <Text style={{marginLeft:5}}>{u[6].match(/Mess_Food/g)}</Text> 
+          </View>
+        </TouchableWithoutFeedback> : null }
+        
+           
+        { u[6].match(/Others/g) ? <TouchableWithoutFeedback onPress={this.handle}>
+              <View style={{backgroundColor:"#d6d57c",marginLeft:10,
+    padding: 3, borderRadius:8}}>
+          <Text style={{marginLeft:5}}>{u[6].match(/Others/g)}</Text> 
+          </View>
+        </TouchableWithoutFeedback> : null } 
+        
+        {u[6]===""? <Text>  No tags </Text>:null }
+</View>
+      </View>
+
+
+         </View>
+            
           <TextInput
             style={styles.input}
-            placeholder='Anything to say regarding the resolution'
+            
+            placeholder='  Anything to say regarding the resolution'
             onChangeText={text=>this.setState({exp:text})}
             multiline={true}
             underlineColorAndroid='transparent'
     />
-<CheckBox
-  center
-  title='Resolved'
-  checkedIcon='dot-circle-o'
-  uncheckedIcon='circle-o'
-  checked={this.state.is_r}
-  onPress={() => this.setState({is_r: !this.state.is_r})}
-/>
+  
+<TouchableOpacity   onPress={()=>{this.handler(u[4])}}>
+                   
+                   {this.state.compid===u[4] ?
+                   <View style={{flexDirection:'row',alignItems:"center",justifyContent:"center"}}>
+                    <Icon name="check" size={30} color="#900"/> 
+                    <Text style={{alignSelf:"center",fontFamily:"open-sans-bold",fontSize:15}}>Resolved</Text>
+                    </View>
+                     :
+                   <Text style={{alignSelf:"center",fontFamily:"open-sans-bold",fontSize:15}}>Reslove</Text> }
+</TouchableOpacity>
 
-
+</Cards>
 
         </View>
       );
@@ -157,15 +250,12 @@ const styles = StyleSheet.create({
     fontSize: 15,
     borderColor:'grey',
     borderWidth:1,
-    paddingLeft: 20,
-    paddingRight: 20,
-    paddingTop: 5,
-    paddingBottom: 5,
+  margin:5,
     borderRadius:10
 },
   loginBtn:{
     width:"100%",
-    backgroundColor:"#d1d1d1",
+    backgroundColor:"white",
     borderRadius:5,
     marginTop:10,
     marginBottom:10
