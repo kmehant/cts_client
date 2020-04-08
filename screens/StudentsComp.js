@@ -1,232 +1,378 @@
 import * as React from 'react';
-import {Card, Button, CheckBox}  from 'react-native-elements';
-import { Platform,Dimensions, StyleSheet, Text, View, TextInput, TouchableOpacity,ScrollView,ImageBackground, ActivityIndicator, AsyncStorage, Alert} from 'react-native';
+import { Card, Button, CheckBox } from 'react-native-elements';
+import { Platform, Dimensions, StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView, ImageBackground, ActivityIndicator, AsyncStorage, Alert } from 'react-native';
 import Cards from '../components/card'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/EvilIcons';
+import Dialog from "react-native-dialog";
+import ResolvedComponent from './ResolvedComponent';
 
-export default class StudentsComp extends React.Component{
+
+export default class StudentsComp extends React.Component {
+
 
   constructor(props) {
     super(props);
+    global.c_id = -1;
     this.state = {
       loading: false,
       emaildid: '',
-      data:[],
-      exp:'',
+      data: [],
+      exp: '',
       is_r: false,
       is_v: 1,
-      compid:"",
-      flag1:false,
-    
+      compid: -1,
+      dialogVisible: false
     };
-}
-
-comp = async () => {
-  this.setState({
-    loading:true
-  })
-  let t = await AsyncStorage.getItem('token');
-  console.log(t);
-
-
-
-  if (t == '[object Object]' || t==''  )
-  {
-    
-    Alert.alert('Authentication Failure', 'Please login again!');
-    this.setState({
-      loading:false
-    })
-    return;
   }
 
-  let str = '';
-  str = "https://cts-server.herokuapp.com/scomplaints/"+t;
-  
-  fetch(str, {
+  comp = async () => {
+    this.setState({
+      loading: true
+    })
+    let t = await AsyncStorage.getItem('token');
+    console.log(t);
 
-  })
-      .then((resp)=>{ return resp.json();
+
+
+    if (t == '[object Object]' || t == '') {
+
+      Alert.alert('Authentication Failure', 'Please login again!');
+      this.setState({
+        loading: false
+      })
+      return;
+    }
+
+    let str = '';
+    str = "https://cts-server.herokuapp.com/scomplaints/" + t;
+
+    fetch(str, {
+
+    })
+      .then((resp) => {
+        return resp.json();
       })
       .then((jsonData) => {
         console.log(jsonData);
         this.setState({
-          loading:false,
+          loading: false,
           data: jsonData
         })
 
-          
+
       })
-      .catch((e)=>{
+      .catch((e) => {
+        console.log(e);
+      })
+
+    }
+
+    invalidFunc = async () => {
+      this.setState({
+        loading: true
+      })
+      let t = await AsyncStorage.getItem('token');
+      console.log(t);
+
+
+
+      if (t == '[object Object]' || t == '') {
+
+        Alert.alert('Authentication Failure', 'Please login again!');
+        this.setState({
+          loading: false
+        })
+        return;
+      }
+
+      let str = '';
+      let cid = global.c_id;
+      str = "https://cts-server.herokuapp.com/complaints/u/" + cid + "/" + t;
+
+      fetch(str, {
+        headers: {
+          exp: this.state.exp,
+          is_resolved: 1,
+          is_valid: 0
+        }
+      })
+        .then((resp) => {
+          return resp.json();
+        })
+        .then((jsonData) => {
+          console.log(jsonData);
+          this.setState({
+            loading: false
+          });
+          Alert.alert(
+            'Success', 'Complaint has been closed!',
+            [
+              { text: 'OK', onPress: () => this.comp() }
+            ],
+            { cancelable: false }
+          );
+          this.setState({
+            dialogVisible: false,
+            exp: '',
+    
+          });
+          global.c_id = -1;
+                })
+        .catch((e) => {
           console.log(e);
+          Alert.alert('Failed', 'Server might be down, please try sometime later')
+          this.setState({
+            loading: false
+          });
+          global.c_id = -1; 
+
+        })
+
+    }
+    resolveFunc = async () => {
+      this.setState({
+        loading: true
       })
-
-}
-
-
-getEmail = async () => {
-  let em = await AsyncStorage.getItem('email');
-  this.setState({emailid: em});
-}
-
- componentDidMount() {
-      this.getEmail();
-}
-handler(compid){
-   { 
-  Alert.alert(
-    'Proceed to Submit ?',
-    ' ',
-    [
-      { text: 'CANCEL', onPress: ()=>{} },
-      { text: 'Proceed', onPress: () => this.setnew(compid) }
-    ],
-    { cancelable: false }
-  )
-  }
-}
-
-default(){
-   this.setState({
-     compid:""
-   })
-   console.log(this.state.compid)
-}
-setnew(compid){
-
-  this.setState({
-    compid:compid,
-    flag1:true
-  })
-  console.log(this.state.compid)
-}
+      let t = await AsyncStorage.getItem('token');
+      console.log(t);
 
 
 
-  render(){
-    if(this.state.loading){
-      return( 
-        <View style={ styles.loader}> 
-          <ActivityIndicator size="large" color="white"/>
-        </View>
-    )}
+      if (t == '[object Object]' || t == '') {
 
-  return (
-            <View style={styles.container}>
-<Card
-  title='NIT Andhra Pradesh CTS'>
-  <Text style={{marginBottom: 10, alignSelf: 'center', fontSize: 15}}>
-   {this.state.emailid}
-  </Text>
-  <TouchableOpacity style={styles.tags1} onPress={this.comp}>
-          <Text style={{color:'white',fontSize: 15, alignSelf:'center'}}>Fetch Complaints</Text>
-        </TouchableOpacity>
-</Card>
+        Alert.alert('Authentication Failure', 'Please login again!');
+        this.setState({
+          loading: false
+        })
+        return;
+      }
 
-<View style={styles.MainContainer}>
- 
-<Card title="Your Complaints">
-  {
-    this.state.data.map((u, i) => {
-     
+      let str = '';
+      console.log(global.cid);
+      let cid = global.c_id;
+      str = "https://cts-server.herokuapp.com/complaints/u/" + cid + "/" + t;
+
+      fetch(str, {
+        headers: {
+          exp: this.state.exp,
+          is_resolved: 1,
+          is_valid: 1
+        }
+      })
+        .then((resp) => {
+          return resp.json();
+        })
+        .then((jsonData) => {
+          console.log(jsonData);
+          this.setState({
+            loading: false          });
+            Alert.alert(
+              'Success', 'Complaint has been closed!',
+              [
+                { text: 'OK', onPress: () => this.comp() }
+              ],
+              { cancelable: false }
+            );      
+            this.setState({
+            dialogVisible: false,
+            exp: '',
+    
+          });
+          global.c_id = -1;
+        })
+        .catch((e) => {
+          console.log(e);
+          Alert.alert('Failed', 'Server might be down, please try sometime later')
+          this.setState({
+            loading: false          });
+            this.setState({
+              dialogVisible: false,
+              exp: '',
       
+            });
+            global.c_id = -1;
+
+        })
+
+    }
+
+    getEmail = async () => {
+      let em = await AsyncStorage.getItem('email');
+
+      this.setState({ emailid: em });
+    }
+
+    cancelDialog = () => {
+      this.setState({
+        dialogVisible: false,
+        exp: '',
+
+      });
+      global.c_id = -1;
+    }
+
+    componentDidMount() {
+      this.getEmail();
+    }
+
+
+default() {
+    this.setState({
+      compid: ""
+    });
+    console.log(this.state.compid)
+  }
+  handler(compid) {
+    console.log("passed:"+ compid);
+    this.setState({
+      dialogVisible: true
+
+    });
+    global.c_id = compid;
+  }
+
+
+
+
+  render() {
+    if (this.state.loading) {
       return (
-        <View key={i} style={styles.loginBtn}>
-          <Cards>
-          <View style={{margin:7}}>
-            <View style={{flexDirection:'row-reverse'}}>
-      <Text   style={{fontFamily:'open-sans-bold'}}>  {u[9]}</Text>
-    
-      </View>
-         <View style={{flexDirection:'row',marginBottom:10}}>
-          <Text style={{fontFamily:'open-sans-bold'}}>Complaint :</Text>
-          <Text style={{marginLeft:5}}>{u[5]}</Text>
-          </View>
-         
-           
-          <View  style={{margin:5}}>
-    
-          <Text style={{fontFamily:'open-sans-bold',marginBottom:5}}>Tags :</Text>
+        <View style={styles.loader}>
+          <ActivityIndicator size="large" color="white" />
+        </View>
+      )
+    }
 
-         
+    return (
+      <View style={styles.container}>
+        <View>
+          <Dialog.Container visible={this.state.dialogVisible}>
+            <Dialog.Title>Close Complaint</Dialog.Title>
+            <Dialog.Description>
+              Here goes the complaint description.
+          </Dialog.Description>
+            <Dialog.Input onChangeText={text => this.setState({ exp: text })}
+              multiline={true}
+              underlineColorAndroid='transparent'
+              placeholder='Please give your explanation here.'
+            >
+            </Dialog.Input>
 
-          <View style={{flexDirection:'row'}}>
+            <Dialog.Button label="Cancel" onPress={this.cancelDialog} />
+            <Dialog.Button label="Invalid" onPress={this.invalidFunc} />
+            <Dialog.Button label="Resolve" onPress={this.resolveFunc} />
+          </Dialog.Container>
+        </View>
+        <Card
+          title='NIT Andhra Pradesh CTS'>
+          <Text style={{ marginBottom: 10, alignSelf: 'center', fontSize: 15 }}>
+            {this.state.emailid}
+          </Text>
+          <TouchableOpacity style={styles.tags1} onPress={this.comp}>
+            <Text style={{ color: 'white', fontSize: 15, alignSelf: 'center' }}>Fetch Complaints</Text>
+          </TouchableOpacity>
+        </Card>
 
-        { u[6].match(/Academics/g) ? <TouchableWithoutFeedback onPress={this.handle}>
-              <View style={{backgroundColor:"#e87d7d", marginLeft:2,
-    padding: 3, borderRadius:8}}>
-          <Text style={{marginLeft:5}}>{u[6].match(/Academics/g)}</Text> 
-          </View>
-        </TouchableWithoutFeedback> : null }
-          
- 
+        <View style={styles.MainContainer}>
 
-        { u[6].match(/Hostel/g) ? <TouchableWithoutFeedback onPress={this.handle}>
-              <View style={{backgroundColor:"#94f092",marginLeft:10,
-    padding: 3, borderRadius:8}}>
-          <Text style={{marginLeft:5}}>{u[6].match(/Hostel/g)}</Text> 
-          </View>
-        </TouchableWithoutFeedback> : null }
-
-
-        { u[6].match(/Mess_Food/g) ? <TouchableWithoutFeedback onPress={this.handle}>
-              <View style={{backgroundColor:"#92d1f0",marginLeft:10,
-    padding: 3, borderRadius:8}}>
-          <Text style={{marginLeft:5}}>{u[6].match(/Mess_Food/g)}</Text> 
-          </View>
-        </TouchableWithoutFeedback> : null }
-        
-           
-        { u[6].match(/Others/g) ? <TouchableWithoutFeedback onPress={this.handle}>
-              <View style={{backgroundColor:"#d6d57c",marginLeft:10,
-    padding: 3, borderRadius:8}}>
-          <Text style={{marginLeft:5}}>{u[6].match(/Others/g)}</Text> 
-          </View>
-        </TouchableWithoutFeedback> : null } 
-        
-        {u[6]===""? <Text>  No tags </Text>:null }
-</View>
-      </View>
+          <Card title="Your Complaints">
+            {
+              this.state.data.map((u, i) => {
 
 
-         </View>
-            
-          <TextInput
-            style={styles.input}
-            
-            placeholder='  Anything to say regarding the resolution'
-            onChangeText={text=>this.setState({exp:text})}
-            multiline={true}
-            underlineColorAndroid='transparent'
-    />
-  
-<TouchableOpacity   onPress={()=>{this.handler(u[4])}}>
-                   
-                   {this.state.compid===u[4] ?
-                   <View style={{flexDirection:'row',alignItems:"center",justifyContent:"center"}}>
-                    <Icon name="check" size={30} color="#900"/> 
-                    <Text style={{alignSelf:"center",fontFamily:"open-sans-bold",fontSize:15}}>Resolved</Text>
-                    </View>
-                     :
-                   <Text style={{alignSelf:"center",fontFamily:"open-sans-bold",fontSize:15}}>Reslove</Text> }
-</TouchableOpacity>
+                return (
+                  <View key={i} style={styles.loginBtn}>
+                    <Cards>
+                      <View style={{ margin: 7 }}>
+                        <View style={{ flexDirection: 'row-reverse' }}>
+                          <Text style={{ fontFamily: 'open-sans-bold' }}>  {u[9]}</Text>
 
-</Cards>
+                        </View>
+                        <View style={{ flexDirection: 'row', marginBottom: 10 }}>
+                          <Text style={{ fontFamily: 'open-sans-bold' }}>Complaint :</Text>
+                          <Text style={{ marginLeft: 5 }}>{u[5]}</Text>
+                        </View>
+
+
+                        <View style={{ margin: 5 }}>
+
+                          <Text style={{ fontFamily: 'open-sans-bold', marginBottom: 5 }}>Tags :</Text>
+
+
+
+                          <View style={{ flexDirection: 'row' }}>
+
+                            {u[6].match(/Academics/g) ? <TouchableWithoutFeedback onPress={this.handle}>
+                              <View style={{
+                                backgroundColor: "#e87d7d", marginLeft: 2,
+                                padding: 3, borderRadius: 8
+                              }}>
+                                <Text style={{ marginLeft: 5 }}>{u[6].match(/Academics/g)}</Text>
+                              </View>
+                            </TouchableWithoutFeedback> : null}
+
+
+
+                            {u[6].match(/Hostel/g) ? <TouchableWithoutFeedback onPress={this.handle}>
+                              <View style={{
+                                backgroundColor: "#94f092", marginLeft: 10,
+                                padding: 3, borderRadius: 8
+                              }}>
+                                <Text style={{ marginLeft: 5 }}>{u[6].match(/Hostel/g)}</Text>
+                              </View>
+                            </TouchableWithoutFeedback> : null}
+
+
+                            {u[6].match(/Mess_Food/g) ? <TouchableWithoutFeedback onPress={this.handle}>
+                              <View style={{
+                                backgroundColor: "#92d1f0", marginLeft: 10,
+                                padding: 3, borderRadius: 8
+                              }}>
+                                <Text style={{ marginLeft: 5 }}>{u[6].match(/Mess_Food/g)}</Text>
+                              </View>
+                            </TouchableWithoutFeedback> : null}
+
+
+                            {u[6].match(/Others/g) ? <TouchableWithoutFeedback onPress={this.handle}>
+                              <View style={{
+                                backgroundColor: "#d6d57c", marginLeft: 10,
+                                padding: 3, borderRadius: 8
+                              }}>
+                                <Text style={{ marginLeft: 5 }}>{u[6].match(/Others/g)}</Text>
+                              </View>
+                            </TouchableWithoutFeedback> : null}
+
+                            {u[6] === "" ? <Text>  No tags </Text> : null}
+                          </View>
+                        </View>
+
+
+                      </View>
+
+
+
+                      <TouchableOpacity onPress={() => { this.handler(u[4]) }}>
+
+                        <Text style={{ alignSelf: "center", fontFamily: "open-sans-bold", fontSize: 15 }}>Resolve</Text>
+
+                      </TouchableOpacity>
+
+                    </Cards>
+
+                  </View>
+                );
+              })
+            }
+          </Card>
 
         </View>
-      );
-    })
+
+
+
+      </View>
+    );
   }
-</Card>
-
-</View>
-
-
-
-    </View>
-  );
-}
 }
 
 
@@ -239,66 +385,66 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#6e6e6e',
   },
-  loader:{
+  loader: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     height: Dimensions.get('window').height,
     backgroundColor: "#424242"
-   },
+  },
   input: {
     fontSize: 15,
-    borderColor:'grey',
-    borderWidth:1,
-  margin:5,
-    borderRadius:10
-},
-  loginBtn:{
-    width:"100%",
-    backgroundColor:"white",
-    borderRadius:5,
-    marginTop:10,
-    marginBottom:10
+    borderColor: 'grey',
+    borderWidth: 1,
+    margin: 5,
+    borderRadius: 10
   },
-  tags1:{
+  loginBtn: {
+    width: "100%",
+    backgroundColor: "white",
+    borderRadius: 5,
+    marginTop: 10,
+    marginBottom: 10
+  },
+  tags1: {
     margin: 5,
     padding: 10,
-    backgroundColor:"#e87d7d",
-    borderRadius:8
-    },
-    tags2:{
-      margin: 5,
-      padding: 10,
-      backgroundColor:"#94f092",
-      borderRadius:8
-      },
-      tags3:{
-        margin: 5,
-        padding: 10,
-        backgroundColor:"#92d1f0",
-        borderRadius:8
-        },
-        tags4:{
-          margin: 5,
-          padding: 10,
-          backgroundColor:"#d6d57c",
-          borderRadius:8
-          },
+    backgroundColor: "#e87d7d",
+    borderRadius: 8
+  },
+  tags2: {
+    margin: 5,
+    padding: 10,
+    backgroundColor: "#94f092",
+    borderRadius: 8
+  },
+  tags3: {
+    margin: 5,
+    padding: 10,
+    backgroundColor: "#92d1f0",
+    borderRadius: 8
+  },
+  tags4: {
+    margin: 5,
+    padding: 10,
+    backgroundColor: "#d6d57c",
+    borderRadius: 8
+  },
   authContainer: {
 
-    alignContent:'center',
+    alignContent: 'center',
     width: '100%',
     maxWidth: 400,
     padding: 20,
-    backgroundColor:'#424242',
+    backgroundColor: '#424242',
   },
   mainContainer: {
-    alignContent:'center',
+    alignContent: 'center',
     width: '100%',
     height: 800,
     maxWidth: 400,
     padding: 20,
-    backgroundColor:'#424242',
+    backgroundColor: '#424242',
   },
   developmentModeText: {
     marginBottom: 20,
