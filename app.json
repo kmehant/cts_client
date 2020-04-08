@@ -11,12 +11,12 @@
     ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/cts.png",
+    "icon": "./assets/images/ctslogo.png",
     "scheme": "myapp",
     "splash": {
-      "image": "./assets/images/cts.png",
+      "image": "./assets/images/ctslogo.png",
       "resizeMode": "contain",
-      "backgroundColor": "#6e6e6e"
+      "backgroundColor": "black"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
