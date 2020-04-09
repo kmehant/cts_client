@@ -114,7 +114,7 @@ export default class AddComponent extends React.Component {
     }
 
 
-    if (this.state.data == '') {
+    if (this.state.data.trim() == '') {
       Alert.alert('Failed', 'Please fill the fields');
       this.setState({
         loading: false

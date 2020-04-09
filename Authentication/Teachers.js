@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity,ScrollView,ImageBackground, ActivityIndicator, AsyncStorage, Alert} from 'react-native';
 
 import Card from '../components/card';
-export default class Login extends React.Component {
+export default class Teachers extends React.Component {
   state={
     email:"",
     pin:"",
@@ -78,6 +78,7 @@ getPin = () => {
   });
   let e = this.state.email;
   let str = "";
+  let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   if (e == "" || reg.test(e) === false){
     Alert.alert("CTS", "Please fill NIT Andhra Pradesh email id");
     this.setState({
@@ -137,7 +138,7 @@ getPin = () => {
         <View style={styles.inputView} >
           <TextInput  
             style={styles.inputText}
-            placeholder="Email" 
+            placeholder="University Email" 
             placeholderTextColor="#003f5c"
             onChangeText={text => this.setState({email:text})}/>
         </View>

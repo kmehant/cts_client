@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity,ScrollView,ImageBackground, ActivityIndicator, AsyncStorage, Alert} from 'react-native';
 
 import Card from '../components/card';
-export default class Login extends React.Component {
+export default class Students extends React.Component {
   state={
     email:"",
     pin:"",
@@ -144,7 +144,7 @@ getPin = () => {
         <View style={styles.inputView} >
           <TextInput  
             style={styles.inputText}
-            placeholder="Email" 
+            placeholder="University Email" 
             placeholderTextColor="#003f5c"
             onChangeText={text => this.setState({email:text})}/>
         </View>

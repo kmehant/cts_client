@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity,ScrollView,ImageBackground, ActivityIndicator, AsyncStorage, Alert} from 'react-native';
 
 import Card from '../components/card';
-export default class Login extends React.Component {
+export default class Home extends React.Component {
 
 students = () => {
   this.props.navigation.navigate('Students');

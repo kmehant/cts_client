@@ -152,7 +152,7 @@ getEmail = async () => {
           <Text style={{fontFamily:'open-sans-bold',margin:3}}>{u[9]}</Text>
          </View>
          <View style={{flexDirection:'row',marginBottom:10}}>
-          <Text style={{fontFamily:'open-sans-bold'}}>Complaint :</Text>
+          <Text style={{fontFamily:'open-sans-bold'}}>Complaint:</Text>
           <Text style={{marginLeft:5}}>{u[5]}</Text>
           </View>
          <View  style={{margin:3}}>
@@ -161,7 +161,7 @@ getEmail = async () => {
             </View>
          <View style={{flexDirection:'row'}}>
          { u[6].match(/Academics/g) ? <TouchableWithoutFeedback onPress={this.handle}>
-              <View style={{backgroundColor:"#e87d7d", marginLeft:2,
+              <View style={{backgroundColor:"#e87d7d", margin:5,
     padding: 3, borderRadius:8}}>
           <Text style={{marginLeft:5}}>{u[6].match(/Academics/g)}</Text> 
           </View>
@@ -170,7 +170,7 @@ getEmail = async () => {
  
 
         { u[6].match(/Hostel/g) ? <TouchableWithoutFeedback onPress={this.handle}>
-              <View style={{backgroundColor:"#94f092",marginLeft:10,
+              <View style={{backgroundColor:"#94f092",margin:5,
     padding: 3, borderRadius:8}}>
           <Text style={{marginLeft:5}}>{u[6].match(/Hostel/g)}</Text> 
           </View>
@@ -178,7 +178,7 @@ getEmail = async () => {
 
 
         { u[6].match(/Mess_Food/g) ? <TouchableWithoutFeedback onPress={this.handle}>
-              <View style={{backgroundColor:"#92d1f0",marginLeft:10,
+              <View style={{backgroundColor:"#92d1f0",margin:5,
     padding: 3, borderRadius:8}}>
           <Text style={{marginLeft:5}}>{u[6].match(/Mess_Food/g)}</Text> 
           </View>
@@ -186,7 +186,7 @@ getEmail = async () => {
         
            
         { u[6].match(/Others/g) ? <TouchableWithoutFeedback onPress={this.handle}>
-              <View style={{backgroundColor:"#d6d57c",marginLeft:10,
+              <View style={{backgroundColor:"#d6d57c",margin:5,
     padding: 3, borderRadius:8}}>
           <Text style={{marginLeft:5}}>{u[6].match(/Others/g)}</Text> 
           </View>
@@ -194,13 +194,15 @@ getEmail = async () => {
         </View>
           
       
+        <Text style={{fontFamily:'open-sans-bold'}}>Message from Resolver:</Text>
           <Text style={styles.name}>{u[14]}</Text>
+          
           <View style={{flexDirection:"row"}}>
-      <Text style={{fontFamily:'open-sans-bold'}}>Resolver Name :</Text>
+      <Text style={{fontFamily:'open-sans-bold'}}>Resolver Name:</Text>
           <Text > {u[16]}</Text>
           </View>
           <View style={{flexDirection:"row"}}>
-          <Text style={{fontFamily:'open-sans-bold'}}>Resolver position :</Text>
+          <Text style={{fontFamily:'open-sans-bold'}}>Resolver position:</Text>
           <Text style={styles.name}> {u[18]}</Text>
           
          </View>

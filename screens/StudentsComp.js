@@ -14,6 +14,7 @@ export default class StudentsComp extends React.Component {
   constructor(props) {
     super(props);
     global.c_id = -1;
+    global.c_text = "";
     this.state = {
       loading: false,
       emaildid: '',
@@ -74,8 +75,18 @@ export default class StudentsComp extends React.Component {
       })
       let t = await AsyncStorage.getItem('token');
       console.log(t);
-
-
+      if (this.state.exp.trim() == "")
+      {
+        this.setState({
+          dialogVisible: false
+        })
+        Alert.alert('CTS', 'Please add some explanation.');
+        this.setState({
+          loading: false
+        });
+        return;
+      }
+else {
 
       if (t == '[object Object]' || t == '') {
 
@@ -128,7 +139,7 @@ export default class StudentsComp extends React.Component {
           global.c_id = -1; 
 
         })
-
+      }
     }
     resolveFunc = async () => {
       this.setState({
@@ -137,6 +148,18 @@ export default class StudentsComp extends React.Component {
       let t = await AsyncStorage.getItem('token');
       console.log(t);
 
+      if (this.state.exp.trim() == "")
+      {
+        this.setState({
+          dialogVisible: false
+        })
+        Alert.alert('CTS', 'Please add some explanation.');
+        this.setState({
+          loading: false
+        });
+        return;
+      }
+      else {
 
 
       if (t == '[object Object]' || t == '') {
@@ -194,7 +217,7 @@ export default class StudentsComp extends React.Component {
             global.c_id = -1;
 
         })
-
+      }
     }
 
     getEmail = async () => {
@@ -223,13 +246,14 @@ default() {
     });
     console.log(this.state.compid)
   }
-  handler(compid) {
+  handler(compid, compText) {
     console.log("passed:"+ compid);
     this.setState({
       dialogVisible: true
 
     });
     global.c_id = compid;
+    global.c_text = compText;
   }
 
 
@@ -250,7 +274,7 @@ default() {
           <Dialog.Container visible={this.state.dialogVisible}>
             <Dialog.Title>Close Complaint</Dialog.Title>
             <Dialog.Description>
-              Here goes the complaint description.
+              Description: {global.c_text}
           </Dialog.Description>
             <Dialog.Input onChangeText={text => this.setState({ exp: text })}
               multiline={true}
@@ -260,8 +284,8 @@ default() {
             </Dialog.Input>
 
             <Dialog.Button label="Cancel" onPress={this.cancelDialog} />
-            <Dialog.Button label="Invalid" onPress={this.invalidFunc} />
-            <Dialog.Button label="Resolve" onPress={this.resolveFunc} />
+            <Dialog.Button label="Invalid" style={styles.tagsd1} onPress={this.invalidFunc} />
+            <Dialog.Button label="Resolve" style={styles.tagsd2} onPress={this.resolveFunc} />
           </Dialog.Container>
         </View>
         <Card
@@ -352,9 +376,9 @@ default() {
 
 
 
-                      <TouchableOpacity onPress={() => { this.handler(u[4]) }}>
+                      <TouchableOpacity style={styles.tags2} onPress={() => { this.handler(u[4], u[5]) }}>
 
-                        <Text style={{ alignSelf: "center", fontFamily: "open-sans-bold", fontSize: 15 }}>Resolve</Text>
+                        <Text style={{ alignSelf: "center", fontFamily: "open-sans-bold", fontSize: 15, color: 'white' }}>Resolve</Text>
 
                       </TouchableOpacity>
 
@@ -412,11 +436,27 @@ const styles = StyleSheet.create({
     backgroundColor: "#e87d7d",
     borderRadius: 8
   },
+  tagsd1: {
+    margin: 5,
+    padding: 10,
+    backgroundColor: "#e87d7d",
+    borderRadius: 8,
+    textDecorationColor: 'white',
+    color: 'white'
+  },
   tags2: {
     margin: 5,
     padding: 10,
     backgroundColor: "#94f092",
     borderRadius: 8
+  },
+  tagsd2: {
+    margin: 5,
+    padding: 10,
+    backgroundColor: "#94f092",
+    borderRadius: 8,
+    textDecorationColor: 'white',
+    color: 'white'
   },
   tags3: {
     margin: 5,
