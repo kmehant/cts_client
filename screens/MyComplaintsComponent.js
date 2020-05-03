@@ -12,10 +12,54 @@ export default class MyComplaintsComponent extends React.Component{
       loading: false,
       emaildid: '',
       data:[],
-      res:true
+      mainData:[],
+      res:true,
+      dialogVisible: false,
+      term:""
     };
 }
 
+fun = (value) => {
+  this.setState({
+    term: value
+  });
+}
+searchFun = (text) => {
+  this.setState({
+    loading: true
+  })
+  let searchTerm = this.state.term;
+ if (searchTerm == "") return;
+let cardinal = 10;
+ let str = "https://cts-server.herokuapp.com/search/" + cardinal;
+
+  fetch(str, {
+    headers: {
+      data: this.state.mainData,
+      search_term: this.state.term
+    }
+  })
+    .then((resp) => {
+      return resp.json();
+    })
+    .then((jsonData) => {
+      console.log(jsonData);
+      this.setState({
+        loading: false          });   
+        this.setState({
+          data: jsonData
+
+      });
+    })
+    .catch((e) => {
+      console.log(e);
+      Alert.alert('Failed', 'Server might be down, please try sometime later')
+      this.setState({
+        loading: false          });
+
+
+    })
+}
 
 comp = async () => {
   this.setState({
@@ -52,7 +96,7 @@ comp = async () => {
         this.setState({
           loading:false,
           data: jsonData,
-           
+          mainData: jsonData
         })
 
           
@@ -105,10 +149,12 @@ handle=()=> {
         <Animatable.View animation="slideInRight" duration={500} style={{ height: 50, backgroundColor: 'white', flexDirection: 'row', padding: 5, alignItems: 'center' }}>
         <TextInput
           style={styles.textInputStyle}
-          onChangeText= {this.fun}     // write your search code here
           value={this.state.text}
           underlineColorAndroid="transparent"
+          onChangeText= {text => this.fun(text)} 
+          onSubmitEditing = {(event) => (this.searchFun(event.nativeEvent.text))}
           placeholder="   Search Here"
+          blurOnSubmit = {true}
         />
         </Animatable.View>
         </View>

@@ -27,16 +27,20 @@
     "web": {
       "build": {
         "babel": {
-          "include": ["static-container"]
+          "include": [
+            "static-container"
+          ]
         }
       }
     },
-    
     "android": {
       "package": "com.nitap.cts"
     },
     "ios": {
       "supportsTablet": true
-    }
-  }
+    },
+    "entryPoint": "node_modules/expo/AppEntry.js"
+  },
+  "displayName": "NIT AP CTS",
+  "name": "CTS"
 }
