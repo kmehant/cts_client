@@ -3,6 +3,8 @@ import {Card, Button}  from 'react-native-elements';
 import { Platform,Dimensions, StyleSheet, Text, View, TextInput, TouchableOpacity,ScrollView,ImageBackground, ActivityIndicator, AsyncStorage, Alert} from 'react-native';
 import Cards from '../components/card'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import *as Animatable from 'react-native-animatable';
+import {  FontAwesome5 } from 'react-native-vector-icons';
 
 export default class ResolvedComponent extends React.Component{
   constructor(props) {
@@ -84,6 +86,9 @@ getEmail = async () => {
 
 
 }
+ fun() {   // search bar code
+   
+}
   render(){
     if(this.state.loading){
       return( 
@@ -96,10 +101,14 @@ getEmail = async () => {
             <View style={styles.container}>
 <Card
   title='NIT Andhra Pradesh CTS'>
-  <Text style={{marginBottom: 10, alignSelf: 'center', fontSize: 15}}>
+       <View style={{ flexDirection: 'row'}}>
+     <FontAwesome5 name="user-alt" size={25} color="black" />
+  <Text style={{marginLeft:30,marginBottom: 10, alignSelf: 'center', fontSize: 15}}>
     {this.state.emailid}
   </Text>
+  </View>
   <TouchableOpacity style={styles.tags1} onPress={this.comp}>
+
           <Text style={{color:'white',fontSize: 15, alignSelf:'center'}}>Fetch Your Resolved Complaints</Text>
         
           
@@ -120,9 +129,23 @@ getEmail = async () => {
          <Text style= {{fontSize: 15, fontWeight: "100"}}>valid</Text>
         
            </View>
+           
     
 <Card title="Your Complaints">
   
+<View style={styles.viewStyle}>
+        <View style ={styles.searchbar}>
+        <Animatable.View animation="slideInRight" duration={500} style={{ height: 50, backgroundColor: 'white', flexDirection: 'row', padding: 5, alignItems: 'center' }}>
+        <TextInput
+          style={styles.textInputStyle}
+          onChangeText= {this.fun}     // write your search code here
+          value={this.state.text}
+          underlineColorAndroid="transparent"
+          placeholder="   Search Here"
+        />
+        </Animatable.View>
+        </View>
+        </View>
 
   {
     
@@ -236,6 +259,16 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#6e6e6e',
   },
+  textInputStyle: {
+    height: 40,
+    width:'100%',
+    borderWidth: 1,
+    paddingLeft: 10,
+    borderColor: 'red',
+    borderRadius:10,
+    fontFamily:'open-sans-bold',
+    backgroundColor: '#FFFFFF',
+  },
   bgcolor1:{
     backgroundColor:"#d7ffd9",
     elevation: 5,
@@ -246,6 +279,12 @@ const styles = StyleSheet.create({
     backgroundColor:"pink",
     elevation: 5,
     borderRadius: 20
+  },
+  viewStyle: {
+    justifyContent: 'center',
+    flex: 1,
+
+
   },
 
   loader:{

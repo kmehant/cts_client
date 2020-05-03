@@ -6,7 +6,7 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/EvilIcons';
 import Dialog from "react-native-dialog";
 import ResolvedComponent from './ResolvedComponent';
-
+import *as Animatable from 'react-native-animatable';
 
 export default class TeachersComp extends React.Component {
 
@@ -302,8 +302,25 @@ default() {
 
         <View style={styles.MainContainer}>
 
-          <Card title="Your Complaints">
+          <Card title=" Complaints">
+          <View style={styles.viewStyle}>
+        <View style ={styles.searchbar}>
+        <Animatable.View animation="slideInRight" duration={500} style={{ height: 50, backgroundColor: 'white', flexDirection: 'row', padding: 5, alignItems: 'center' }}>
+        <TextInput
+          style={styles.textInputStyle}
+          onChangeText= {this.fun}     // write your search code here
+          value={this.state.text}
+          underlineColorAndroid="transparent"
+          placeholder="   Search Here"
+        />
+        </Animatable.View>
+        </View>
+        </View>
             {
+
+
+
+           
               this.state.data.map((u, i) => {
 
 
@@ -446,6 +463,16 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     textDecorationColor: 'white',
     color: 'white'
+  },
+  textInputStyle: {
+    height: 40,
+    width:'100%',
+    borderWidth: 1,
+    paddingLeft: 10,
+    borderColor: 'red',
+    borderRadius:10,
+    fontFamily:'open-sans-bold',
+    backgroundColor: '#FFFFFF',
   },
   tags2: {
     margin: 5,

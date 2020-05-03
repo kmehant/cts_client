@@ -3,6 +3,8 @@ import {Card, Button}  from 'react-native-elements';
 import { Platform,Dimensions, StyleSheet, Text, View, TextInput, TouchableOpacity,ScrollView,ImageBackground, ActivityIndicator, AsyncStorage, Alert} from 'react-native';
 import Cards from '../components/card'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import *as Animatable from 'react-native-animatable';
+
 export default class MyComplaintsComponent extends React.Component{
   constructor(props) {
     super(props);
@@ -99,6 +101,18 @@ handle=()=> {
 
 <View style={styles.MainContainer}>
 <Card title="Your Complaints">
+<View style ={styles.searchbar}>
+        <Animatable.View animation="slideInRight" duration={500} style={{ height: 50, backgroundColor: 'white', flexDirection: 'row', padding: 5, alignItems: 'center' }}>
+        <TextInput
+          style={styles.textInputStyle}
+          onChangeText= {this.fun}     // write your search code here
+          value={this.state.text}
+          underlineColorAndroid="transparent"
+          placeholder="   Search Here"
+        />
+        </Animatable.View>
+        </View>
+        
   {
      
     this.state.data.map((u, i) => {
@@ -303,6 +317,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#fbfbfb',
     paddingVertical: 20,
+  },
+  textInputStyle: {
+    height: 40,
+    width:'100%',
+    borderWidth: 1,
+    paddingLeft: 10,
+    borderColor: 'red',
+    borderRadius:10,
+    fontFamily:'open-sans-bold',
+    backgroundColor: '#FFFFFF',
   },
   tabBarInfoText: {
     fontSize: 17,
